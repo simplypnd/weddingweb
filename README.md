@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wedding Invitation Website
 
-## Getting Started
+A mobile-first wedding invitation built with Next.js, Tailwind CSS, and Supabase for RSVP storage.
 
-First, run the development server:
+## Features
+
+- Single-page invitation with hero, countdown, story, schedule, venue map, gallery, FAQ, and RSVP
+- Beige and dusty blue design
+- Mobile hamburger navigation with touch-friendly controls
+- RSVP stored in Supabase
+- Password-protected **admin dashboard** at `/admin` to view RSVPs and **edit invitation content** in focused sub-pages under `/admin/content/*`
+- **Color motif** — seven swatches below dress code on the invitation (no labels), synced with site theme colors
+- Optional background music toggle
+
+## Getting started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Supabase
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. Open the SQL Editor and run the full script in [`supabase/schema.sql`](supabase/schema.sql) (creates `rsvp_responses`, `site_settings`, and the `wedding-assets` storage bucket). If you already ran an older version of the script, also run [`supabase/site_settings.sql`](supabase/site_settings.sql) for the content editor.
+3. If storage bucket creation fails in SQL, create bucket **`wedding-assets`** manually in Storage → New bucket → **Public**
+4. Copy your project URL and **service role** key (Settings → API)
+
+### 3. Environment variables
+
+Copy `.env.example` to `.env.local` and fill in:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Admin dashboard (generate a long random string for SESSION_SECRET)
+ADMIN_PASSWORD=your-chosen-password
+ADMIN_SESSION_SECRET=your-long-random-secret
+```
+
+> The service role key is used only on the server. Never expose it in client code.
+
+### View RSVP responses (admin)
+
+1. Set `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` in `.env.local`
+2. Restart the dev server
+3. Open [http://localhost:3000/admin/login](http://localhost:3000/admin/login) and sign in
+4. Bookmark `/admin` — it is not linked from the public invitation
+
+**Security:** Use a strong admin password. Do not share the `/admin` URL publicly. If env files were ever committed, rotate your Supabase keys and change the admin password.
+
+### Edit invitation content (admin CMS)
+
+1. Sign in at `/admin/login`
+2. Open **Edit site** (`/admin/content` redirects to **Couple**)
+3. Use the section nav to edit one area at a time: Couple, Wedding, RSVP, Story, Schedule, **Details & colors**, Venues, Gallery, FAQ, Contact, Music
+4. Click **Save all changes** from any section (shared state), then hard-refresh the public site
+
+Unsaved edits persist while you move between sub-pages in the same browser session.
+
+### Details, motif, and theme colors
+
+On **Details & colors** (`/admin/content/details`):
+
+- Edit dress code text
+- Set an optional **motif heading** (shown above the color circles; leave blank to hide)
+- Customize all seven palette colors with pickers — these drive both the **color motif** below dress code on the invitation and site-wide styling (background, accents, text)
+
+Use **Reset colors to defaults** to restore the original beige and dusty blue look.
+
+Photos upload to Supabase Storage (`wedding-assets` bucket). You can also paste image URLs. Defaults live in [`lib/site-config-defaults.ts`](lib/site-config-defaults.ts) until you save from admin.
+
+### 4. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push this repo to GitHub
+2. Import the project on [vercel.com](https://vercel.com)
+3. Add the same environment variables in Project Settings → Environment Variables
+4. Deploy
 
-## Learn More
+After deploy, submit a test RSVP and confirm it appears on `/admin` (and in Supabase → Table Editor → `rsvp_responses`). Add `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` to Vercel environment variables as well.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command        | Description          |
+| -------------- | -------------------- |
+| `npm run dev`  | Start dev server     |
+| `npm run build`| Production build     |
+| `npm run start`| Start production     |
+| `npm run lint` | Run ESLint           |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/              # Pages and API routes
+components/       # UI sections
+lib/              # Config loader, validation, Supabase client
+app/admin/        # Admin RSVP + content editor
+public/           # Static assets (gallery, audio)
+supabase/         # Database schema
+```
