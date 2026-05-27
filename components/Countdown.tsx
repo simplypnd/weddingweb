@@ -30,9 +30,7 @@ const units: { key: keyof TimeLeft; label: string }[] = [
 
 export function Countdown({ config }: { config: SiteConfig }) {
   const dateIso = config.wedding.dateIso;
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(() =>
-    getTimeLeft(new Date(dateIso)),
-  );
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
     const target = new Date(dateIso);
