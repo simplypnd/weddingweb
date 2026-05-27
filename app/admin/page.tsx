@@ -3,6 +3,7 @@ import { AdminNav } from "@/components/admin/AdminNav";
 import { RsvpTable } from "@/components/admin/RsvpTable";
 import { getSupabaseAdmin } from "@/lib/supabase-server";
 import type { RsvpResponse } from "@/lib/rsvp-types";
+export const dynamic = "force-dynamic";
 
 function SummaryCard({ label, value }: { label: string; value: string | number }) {
   return (
