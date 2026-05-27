@@ -53,6 +53,7 @@ export const defaultSiteConfig: SiteConfig = {
     dressCode:
       "Garden formal — think soft colors and comfortable shoes for the lawn.",
     motifTitle: "Our Colors",
+    motifColors: ["#7a8fa3", "#5c6f82", "#ebe4d8", "#f5f0e8", "#faf8f5"],
   },
   venues: [
     {

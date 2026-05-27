@@ -35,12 +35,17 @@ export function normalizeSiteConfig(raw: unknown): SiteConfig {
 
   if (obj.details && typeof obj.details === "object") {
     const details = obj.details as Record<string, unknown>;
-    if (details.motifTitle === undefined) {
-      obj.details = {
-        ...details,
-        motifTitle: defaultSiteConfig.details.motifTitle,
-      };
-    }
+    obj.details = {
+      ...details,
+      motifTitle:
+        typeof details.motifTitle === "string"
+          ? details.motifTitle
+          : defaultSiteConfig.details.motifTitle,
+      motifColors:
+        Array.isArray(details.motifColors) && details.motifColors.length === 5
+          ? details.motifColors
+          : defaultSiteConfig.details.motifColors,
+    };
   }
 
   const parsed = siteConfigSchema.safeParse(obj);

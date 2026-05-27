@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const hexColor = z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Use a 6-digit hex color (e.g. #7a8fa3)");
+const motifColorsSchema = z.array(hexColor).length(5);
 
 export const themeSchema = z.object({
   sand: hexColor,
@@ -51,6 +52,7 @@ export const siteConfigSchema = z.object({
   details: z.object({
     dressCode: z.string().min(1),
     motifTitle: z.string(),
+    motifColors: motifColorsSchema,
   }),
   venues: z
     .array(

@@ -41,6 +41,20 @@ export function prepareSiteConfigForSave(body: unknown): SiteConfig {
     }
   }
 
+  const motifDefaults = defaultSiteConfig.details.motifColors;
+  const rawMotif = Array.isArray(raw.details?.motifColors)
+    ? raw.details?.motifColors
+    : [];
+  const motifColors: string[] = [];
+  for (const value of rawMotif) {
+    const normalized = normalizeHex(String(value ?? ""));
+    if (normalized) motifColors.push(normalized);
+    if (motifColors.length >= 5) break;
+  }
+  while (motifColors.length < 5) {
+    motifColors.push(motifDefaults[motifColors.length] ?? "#000000");
+  }
+
   return {
     ...defaultSiteConfig,
     ...raw,
@@ -57,7 +71,15 @@ export function prepareSiteConfigForSave(body: unknown): SiteConfig {
       title: raw.story?.title?.trim() || defaultSiteConfig.story.title,
     },
     schedule: schedule.length > 0 ? schedule : defaultSiteConfig.schedule,
-    details: { ...defaultSiteConfig.details, ...raw.details },
+    details: {
+      ...defaultSiteConfig.details,
+      ...raw.details,
+      motifTitle:
+        typeof raw.details?.motifTitle === "string"
+          ? raw.details?.motifTitle
+          : defaultSiteConfig.details.motifTitle,
+      motifColors,
+    },
     venues: venues.length > 0 ? venues : defaultSiteConfig.venues,
     gallery,
     faq: faq.length > 0 ? faq : defaultSiteConfig.faq,
