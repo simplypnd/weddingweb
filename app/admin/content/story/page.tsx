@@ -1,5 +1,5 @@
-import { StorySection } from "@/components/admin/sections/StorySection";
+import { redirect } from "next/navigation";
 
-export default function AdminContentStoryPage() {
-  return <StorySection />;
+export default function AdminContentStoryRedirectPage() {
+  redirect("/admin/content/sponsors");
 }

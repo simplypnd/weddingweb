@@ -3,6 +3,18 @@ import { defaultSiteConfig } from "@/lib/site-config-defaults";
 import type { SiteConfig } from "@/lib/site-config-schema";
 import { normalizeHex } from "@/lib/theme";
 
+function normalizeNav(nav: SiteConfig["nav"] | undefined): SiteConfig["nav"] {
+  const items = nav && nav.length > 0 ? nav : defaultSiteConfig.nav;
+  return items.map((item) => {
+    if (item.href !== "#story") return item;
+    const label =
+      item.label === "Story" || item.label === "Our Story"
+        ? "Sponsors"
+        : item.label;
+    return { ...item, href: "#sponsors", label };
+  });
+}
+
 /** Clean admin form data before Zod validation so empty rows do not block save. */
 export function prepareSiteConfigForSave(body: unknown): SiteConfig {
   const raw =
@@ -55,6 +67,12 @@ export function prepareSiteConfigForSave(body: unknown): SiteConfig {
     motifColors.push(motifDefaults[motifColors.length] ?? "#000000");
   }
 
+  const storyTitleRaw = raw.story?.title?.trim() || defaultSiteConfig.story.title;
+  const storyTitle =
+    storyTitleRaw === "Our Story" || storyTitleRaw === "Story"
+      ? "Sponsors"
+      : storyTitleRaw;
+
   return {
     ...defaultSiteConfig,
     ...raw,
@@ -68,7 +86,7 @@ export function prepareSiteConfigForSave(body: unknown): SiteConfig {
         paragraphs.length > 0 ? paragraphs : defaultSiteConfig.story.paragraphs,
       image: raw.story?.image?.trim() || defaultSiteConfig.story.image,
       imageAlt: raw.story?.imageAlt?.trim() || defaultSiteConfig.story.imageAlt,
-      title: raw.story?.title?.trim() || defaultSiteConfig.story.title,
+      title: storyTitle,
     },
     schedule: schedule.length > 0 ? schedule : defaultSiteConfig.schedule,
     details: {
@@ -89,8 +107,7 @@ export function prepareSiteConfigForSave(body: unknown): SiteConfig {
       src: musicSrc,
     },
     theme,
-    nav:
-      raw.nav && raw.nav.length > 0 ? raw.nav : defaultSiteConfig.nav,
+    nav: normalizeNav(raw.nav),
   } as SiteConfig;
 }
 
@@ -105,7 +122,7 @@ export function formatConfigValidationError(issues: z.ZodIssue[]): string {
     const hints: Record<string, string> = {
       schedule: "Add at least one schedule item with time and title.",
       venues: "Add at least one venue (e.g. Ceremony and Reception).",
-      paragraphs: "Add at least one paragraph in Our Story.",
+      paragraphs: "Add at least one paragraph in Sponsors.",
       nav: "Navigation cannot be empty.",
     };
     const key = String(issue.path[0]);

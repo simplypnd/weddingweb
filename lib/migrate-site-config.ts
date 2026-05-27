@@ -48,6 +48,26 @@ export function normalizeSiteConfig(raw: unknown): SiteConfig {
     };
   }
 
+  if (Array.isArray(obj.nav)) {
+    obj.nav = obj.nav.map((item) => {
+      if (!item || typeof item !== "object") return item;
+      const navItem = item as { label?: string; href?: string };
+      if (navItem.href !== "#story") return navItem;
+      const label =
+        navItem.label === "Story" || navItem.label === "Our Story"
+          ? "Sponsors"
+          : (navItem.label ?? "Sponsors");
+      return { ...navItem, href: "#sponsors", label };
+    });
+  }
+
+  if (obj.story && typeof obj.story === "object") {
+    const story = obj.story as Record<string, unknown>;
+    if (story.title === "Our Story" || story.title === "Story") {
+      obj.story = { ...story, title: "Sponsors" };
+    }
+  }
+
   const parsed = siteConfigSchema.safeParse(obj);
   if (parsed.success) return parsed.data;
 

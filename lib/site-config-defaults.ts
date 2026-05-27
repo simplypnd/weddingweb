@@ -139,7 +139,7 @@ export const defaultSiteConfig: SiteConfig = {
   },
   nav: [
     { label: "Home", href: "#hero" },
-    { label: "Sponsors", href: "#story" },
+    { label: "Sponsors", href: "#sponsors" },
     { label: "Details", href: "#details" },
     { label: "Venues", href: "#venue" },
     { label: "Gallery", href: "#gallery" },

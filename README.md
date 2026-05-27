@@ -56,7 +56,7 @@ ADMIN_SESSION_SECRET=your-long-random-secret
 
 1. Sign in at `/admin/login`
 2. Open **Edit site** (`/admin/content` redirects to **Couple**)
-3. Use the section nav to edit one area at a time: Couple, Wedding, RSVP, Story, Schedule, **Details & colors**, Venues, Gallery, FAQ, Contact, Music
+3. Use the section nav to edit one area at a time: Couple, Wedding, RSVP, Sponsors, Schedule, **Details & colors**, Venues, Gallery, FAQ, Contact, Music
 4. Click **Save all changes** from any section (shared state), then hard-refresh the public site
 
 Unsaved edits persist while you move between sub-pages in the same browser session.

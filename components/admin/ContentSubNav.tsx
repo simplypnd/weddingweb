@@ -7,7 +7,7 @@ const links = [
   { href: "/admin/content/couple", label: "Couple" },
   { href: "/admin/content/wedding", label: "Wedding" },
   { href: "/admin/content/rsvp", label: "RSVP" },
-  { href: "/admin/content/story", label: "Sponsors" },
+  { href: "/admin/content/sponsors", label: "Sponsors" },
   { href: "/admin/content/schedule", label: "Schedule" },
   { href: "/admin/content/details", label: "Details & colors" },
   { href: "/admin/content/venues", label: "Venues" },
