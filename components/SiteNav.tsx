@@ -93,7 +93,7 @@ export function SiteNav({ config }: { config: SiteConfig }) {
               className="flex min-h-[48px] items-center border-b border-beige text-lg font-medium text-ink"
               onClick={close}
             >
-              {item.href === "#story" ? "Sponsors" : item.label}
+              {item.href === "#sponsors" ? "Sponsors" : item.label}
             </a>
           ))}
         </nav>
