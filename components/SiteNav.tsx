@@ -47,7 +47,7 @@ export function SiteNav({ config }: { config: SiteConfig }) {
               href={item.href}
               className="min-h-[44px] min-w-[44px] px-1 py-2 text-sm font-medium text-ink-muted transition-colors hover:text-dusty-dark"
             >
-              {item.label}
+              {item.href === "#story" ? "Sponsors" : item.label}
             </a>
           ))}
         </nav>
@@ -93,7 +93,7 @@ export function SiteNav({ config }: { config: SiteConfig }) {
               className="flex min-h-[48px] items-center border-b border-beige text-lg font-medium text-ink"
               onClick={close}
             >
-              {item.label}
+              {item.href === "#story" ? "Sponsors" : item.label}
             </a>
           ))}
         </nav>

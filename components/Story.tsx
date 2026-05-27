@@ -19,7 +19,7 @@ export function Story({ config }: { config: SiteConfig }) {
         </div>
         <div>
           <h2 className="font-serif text-3xl font-semibold text-dusty-dark md:text-4xl">
-            {story.title}
+            Sponsors
           </h2>
           <div className="mt-6 space-y-4 text-base text-ink-muted md:text-lg">
             {story.paragraphs.map((p, i) => (

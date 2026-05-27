@@ -18,7 +18,7 @@ export const defaultSiteConfig: SiteConfig = {
     maxGuests: 5,
   },
   story: {
-    title: "Our Story",
+    title: "Sponsors",
     paragraphs: [
       "We met on a rainy afternoon in a small coffee shop downtown — Alex was reading, Jordan was sketching, and somehow we ended up sharing a table and a conversation that never really ended.",
       "Years later, we're ready to say yes to forever. We can't wait to celebrate this next chapter with the people we love most.",
@@ -139,7 +139,7 @@ export const defaultSiteConfig: SiteConfig = {
   },
   nav: [
     { label: "Home", href: "#hero" },
-    { label: "Story", href: "#story" },
+    { label: "Sponsors", href: "#story" },
     { label: "Details", href: "#details" },
     { label: "Venues", href: "#venue" },
     { label: "Gallery", href: "#gallery" },

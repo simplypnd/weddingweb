@@ -14,8 +14,8 @@ export function StorySection() {
   if (!config) return null;
 
   return (
-    <EditorSection title="Our story">
-      <EditorField label="Title">
+    <EditorSection title="Sponsors">
+      <EditorField label="Section heading">
         <input
           className={inputClass}
           value={config.story.title}
@@ -51,7 +51,7 @@ export function StorySection() {
         + Add paragraph
       </button>
       <ImageUploadField
-        label="Story image"
+        label="Sponsors image"
         folder="story"
         currentUrl={config.story.image}
         onUrlChange={(url) =>
